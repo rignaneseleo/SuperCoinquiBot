@@ -7,3 +7,7 @@ It will help you and your flatmates:
   - ... more in the future
 
 ## Try him: t.me/SuperCoinquiBot
+
+
+### Thanks to
+- https://github.com/python-telegram-bot/
