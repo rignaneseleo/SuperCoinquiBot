@@ -100,4 +100,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-bot/token.py
+bot/bot_token.py
+.idea/
+
