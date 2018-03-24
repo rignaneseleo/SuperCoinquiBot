@@ -125,20 +125,15 @@ def credits(bot, update):
 
 
 # Attach the replies to the queries
-start_handler = CommandHandler('start', start, pass_args=True)
-dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('start', start, pass_args=True))
 
-start_handler = CommandHandler('nuovoCoinqui', add_flatmate, pass_args=True)
-dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('nuovoCoinqui', add_flatmate, pass_args=True))
 
-start_handler = CommandHandler('cacciaCoinqui', remove_flatmate, pass_args=True)
-dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('cacciaCoinqui', remove_flatmate, pass_args=True))
 
-coinqui_handler = CommandHandler('coinqui', get_flatmates_names)
-dispatcher.add_handler(coinqui_handler)
+dispatcher.add_handler(CommandHandler('coinqui', get_flatmates_names))
 
-coinqui_handler = CommandHandler('credits', credits)
-dispatcher.add_handler(coinqui_handler)
+dispatcher.add_handler(CommandHandler('credits', credits))
 
 # Start the service
 updater.start_polling()
