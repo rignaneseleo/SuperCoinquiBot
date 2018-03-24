@@ -6,4 +6,4 @@ It will help you and your flatmates:
   - Record the common expenses and calculate the montly amount to pay for each flatmate
   - ... more in the future
 
-## Try him: t.me/SuperCoinquiBot
+## Try him: t.me/SuperCoinquiBot
