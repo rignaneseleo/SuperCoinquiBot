@@ -3,8 +3,9 @@
 # GITHUB: https://github.com/rignaneseleo/SuperCoinquiBot
 
 import logging
-from telegram.ext import Updater
-from telegram.ext import CommandHandler
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, InlineQueryHandler, CallbackQueryHandler, CommandHandler, ChosenInlineResultHandler
 
 from bot_token import get_token
 from src.flat import Flat
@@ -17,6 +18,16 @@ dispatcher = updater.dispatcher
 # Setup the logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+
+# To create a button response
+def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    if header_buttons:
+        menu.insert(0, header_buttons)
+    if footer_buttons:
+        menu.append(footer_buttons)
+    return menu
 
 
 # Define the replies
@@ -111,7 +122,19 @@ def start(bot, update, args):
         message = "Scrivere il nome della casa (es: '/start Falentex')"
 
     # If there is a message to send, send it
-    if message: bot.send_message(chat_id=chat_id, text=message)
+    button_list = [
+        InlineKeyboardButton("nuovo", callback_data="/coinqui"),
+        InlineKeyboardButton("credits", callback_data="/credits"),
+        InlineKeyboardButton("coinqui", callback_data="/coinqui")
+    ]
+    reply_markup = InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
+    bot.send_message(chat_id=chat_id, text="A two-column menu", reply_markup=reply_markup)
+    # if message: bot.send_message(chat_id=chat_id, text=message)
+
+
+def inl(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_message(chat_id=chat_id, text="o")
 
 
 def credits(bot, update):
@@ -125,20 +148,17 @@ def credits(bot, update):
 
 
 # Attach the replies to the queries
-start_handler = CommandHandler('start', start, pass_args=True)
-dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('start', start, pass_args=True))
+dispatcher.add_handler(CallbackQueryHandler(inl))
 
-start_handler = CommandHandler('nuovoCoinqui', add_flatmate, pass_args=True)
-dispatcher.add_handler(start_handler)
 
-start_handler = CommandHandler('cacciaCoinqui', remove_flatmate, pass_args=True)
-dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('nuovoCoinqui', add_flatmate, pass_args=True))
 
-coinqui_handler = CommandHandler('coinqui', get_flatmates_names)
-dispatcher.add_handler(coinqui_handler)
+dispatcher.add_handler(CommandHandler('cacciaCoinqui', remove_flatmate, pass_args=True))
 
-coinqui_handler = CommandHandler('credits', credits)
-dispatcher.add_handler(coinqui_handler)
+dispatcher.add_handler(CommandHandler('coinqui', get_flatmates_names))
+
+dispatcher.add_handler(CommandHandler('credits', credits))
 
 # Start the service
 updater.start_polling()
