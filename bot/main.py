@@ -149,8 +149,11 @@ def credits(bot, update):
 
 # Attach the replies to the queries
 dispatcher.add_handler(CommandHandler('start', start, pass_args=True))
+<<<<<<< HEAD
 dispatcher.add_handler(CallbackQueryHandler(inl))
 
+=======
+>>>>>>> origin/master
 
 dispatcher.add_handler(CommandHandler('nuovoCoinqui', add_flatmate, pass_args=True))
 
